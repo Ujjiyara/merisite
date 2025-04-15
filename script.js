@@ -133,6 +133,33 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 400); // Check every 400ms for more frequent lightning
 });
 
-document.getElementById('scroll-indicator').addEventListener('click', () => {
-  document.getElementById('achievements').scrollIntoView({ behavior: 'smooth' });
+// Check if the scroll-indicator element exists before adding the event listener
+const scrollIndicator = document.getElementById('scroll-indicator');
+if (scrollIndicator) {
+  scrollIndicator.addEventListener('click', () => {
+    const achievements = document.getElementById('achievements');
+    if (achievements) {
+      achievements.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+}
+
+// Function to log events
+function logEvent(eventType, eventTarget) {
+  const timestamp = new Date().toISOString(); // Get the current timestamp
+  const targetType = eventTarget.tagName.toLowerCase(); // Get the tag name of the target
+  const targetClass = eventTarget.className || 'No class'; // Get the class name (if any)
+  const targetId = eventTarget.id || 'No ID'; // Get the ID (if any)
+
+  console.log(`${timestamp}, ${eventType}, Target: ${targetType}, Class: ${targetClass}, ID: ${targetId}`);
+}
+
+// Capture all click events
+document.addEventListener('click', (event) => {
+  logEvent('click', event.target);
+});
+
+// Capture page views (when the DOM is fully loaded)
+document.addEventListener('DOMContentLoaded', () => {
+  logEvent('view', document.body);
 });
