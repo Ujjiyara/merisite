@@ -1,6 +1,7 @@
 // Add a subtle flicker effect to the title
 document.addEventListener('DOMContentLoaded', () => {
   const title = document.querySelector('.title');
+  if (!title) return;
   setInterval(() => {
     title.style.opacity = Math.random() > 0.9 ? '0.8' : '1';
   }, 300);
@@ -51,6 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightningContainer = document.querySelector('.lightning-container');
 
   function createLightning() {
+    if (!lightningContainer) return; // Prevent error if not present
+
     const lightningPath = document.createElement('div');
     lightningPath.classList.add('lightning-path');
 
