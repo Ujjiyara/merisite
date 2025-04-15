@@ -163,3 +163,82 @@ document.addEventListener('click', (event) => {
 document.addEventListener('DOMContentLoaded', () => {
   logEvent('view', document.body);
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  const inputText = document.getElementById('inputText');
+  const analysisResult = document.getElementById('analysisResult');
+  if (!analyzeBtn || !inputText || !analysisResult) return;
+
+  analyzeBtn.addEventListener('click', () => {
+    const text = inputText.value;
+
+    // Basic counts
+    const letters = (text.match(/[a-zA-Z]/g) || []).length;
+    const words = (text.match(/\b\w+\b/g) || []).length;
+    const spaces = (text.match(/ /g) || []).length;
+    const newlines = (text.match(/\n/g) || []).length;
+    const specialSymbols = (text.match(/[^a-zA-Z0-9\s]/g) || []).length;
+
+    // Tokenize words (case-insensitive)
+    const tokens = text.toLowerCase().match(/\b\w+\b/g) || [];
+
+    // Pronouns, prepositions, indefinite articles
+    const pronouns = [
+      "i","me","my","mine","myself","we","us","our","ours","ourselves",
+      "you","your","yours","yourself","yourselves",
+      "he","him","his","himself","she","her","hers","herself",
+      "it","its","itself","they","them","their","theirs","themselves"
+    ];
+    const prepositions = [
+      "about","above","across","after","against","along","among","around","at","before","behind","below","beneath","beside","between","beyond","but","by","concerning","despite","down","during","except","for","from","in","inside","into","like","near","of","off","on","onto","out","outside","over","past","regarding","since","through","throughout","to","toward","under","underneath","until","up","upon","with","within","without"
+    ];
+    const articles = ["a", "an"];
+
+    // Count occurrences
+    function countGroup(group) {
+      const counts = {};
+      group.forEach(word => counts[word] = 0);
+      tokens.forEach(token => {
+        if (group.includes(token)) counts[token]++;
+      });
+      return counts;
+    }
+
+    const pronounCounts = countGroup(pronouns);
+    const prepositionCounts = countGroup(prepositions);
+    const articleCounts = countGroup(articles);
+
+    // Display results
+    analysisResult.innerHTML = `
+      <h3>Basic Counts</h3>
+      <ul>
+        <li>Letters: ${letters}</li>
+        <li>Words: ${words}</li>
+        <li>Spaces: ${spaces}</li>
+        <li>Newlines: ${newlines}</li>
+        <li>Special Symbols: ${specialSymbols}</li>
+      </ul>
+      <div class="analysis-flex">
+        <div>
+          <h3>Pronouns Count</h3>
+          <ul>
+            ${Object.entries(pronounCounts).filter(([_,v])=>v>0).map(([k,v])=>`<li>${k}: ${v}</li>`).join('') || '<li>None found</li>'}
+          </ul>
+        </div>
+        <div>
+          <h3>Prepositions Count</h3>
+          <ul>
+            ${Object.entries(prepositionCounts).filter(([_,v])=>v>0).map(([k,v])=>`<li>${k}: ${v}</li>`).join('') || '<li>None found</li>'}
+          </ul>
+        </div>
+        <div>
+          <h3>Indefinite Articles Count</h3>
+          <ul>
+            ${Object.entries(articleCounts).filter(([_,v])=>v>0).map(([k,v])=>`<li>${k}: ${v}</li>`).join('') || '<li>None found</li>'}
+          </ul>
+        </div>
+      </div>
+    `;
+  });
+});

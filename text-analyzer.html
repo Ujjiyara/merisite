@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Text Analyzer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="birthplace.html">My Birthplace</a></li>
+        <li><a href="background.html">My Background</a></li>
+        <li><a href="technical-skills.html">Technical Skills</a></li>
+        <li><a href="text-analyzer.html">Text Analyzer</a></li>
+        <li><a href="#" id="cv-link">CV</a></li>
+      </ul>
+    </nav>
+    <div class="analyzer-wrapper">
+      <h2 class="analyzer-title">Text Analyzer</h2>
+      <textarea id="inputText" rows="16" cols="100" placeholder="Paste or type your text here (up to 10000+ words)..."></textarea>
+      <br>
+      <button id="analyzeBtn" class="analyze-btn">Analyze</button>
+      <div id="analysisResult"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
